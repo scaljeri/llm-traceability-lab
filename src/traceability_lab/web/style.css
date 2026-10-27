@@ -289,6 +289,7 @@ a { color: var(--accent); }
 #reviewer-prompt-dialog { width: min(1000px, calc(100vw - 32px)); height: min(900px, 90dvh); max-height: 90dvh; padding: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); }
 #reviewer-prompt-dialog[open] { display: flex; flex-direction: column; }
 #reviewer-prompt-dialog::backdrop { background: rgb(15 35 33 / 45%); }
+#parameter-help-text { white-space: pre-line; }
 #reviewer-prompt-text { white-space: pre-wrap; overflow-wrap: anywhere; max-height: none; overflow: visible; }
 
 #settings-menu .manager-footer #profile-status { margin: auto auto auto 0; overflow-wrap: anywhere; }
