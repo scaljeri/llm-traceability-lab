@@ -442,6 +442,28 @@ test('correctness segments preserve individual scores and interpolate red to gre
   assert.match(segments[1].tooltip, /Correctness: 95\/100\nConfidence: 80\/100/);
 });
 
+test('confidence below the recorded threshold overrides correctness color per statement', () => {
+  const confidences = [89, 90, 91, 100, null];
+  const batch = {runs:[{id:'run', status:'completed'}], evaluations:[{
+    result_criteria:[{id:'facts', result:'fail', confidence_threshold:90}],
+    automatic:{semantic_evaluation:{judgments:{facts:confidences.map((confidence, fact_index) => ({
+      fact_index, correctness_score:100, confidence,
+    }))}}},
+  }]};
+  const rows = propertyRunResults(batch, 'facts').rows;
+  const before = JSON.stringify(rows);
+  assert.deepEqual(correctnessSegments(rows)[0].map(segment => segment.color), [
+    'rgb(207, 75, 75)', 'rgb(25, 97, 86)', 'rgb(25, 97, 86)', 'rgb(25, 97, 86)', 'rgb(207, 75, 75)',
+  ]);
+  assert.match(correctnessSegments(rows)[0][0].tooltip, /Correctness: 100\/100\nConfidence: 89\/100/);
+  assert.equal(JSON.stringify(rows), before);
+  rows[0].reviewerScores[2].correctnessScore = 95;
+  assert.equal(correctnessSegments(rows)[0][2].color, 'rgb(34, 96, 85)');
+  rows[0].confidenceThreshold = 0;
+  rows[0].reviewerScores[0].confidence = 0;
+  assert.equal(correctnessSegments(rows)[0][0].color, 'rgb(25, 97, 86)');
+});
+
 test('run summary averages scores independently and excludes missing values', async () => {
   const {correctnessSummary} = await import('../src/traceability_lab/web/research-view.mjs');
   const scores = [100, 100, 100, 0].map(correctnessScore => ({correctnessScore, confidence:100}));

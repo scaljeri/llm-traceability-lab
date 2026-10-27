@@ -54,9 +54,12 @@ export function correctnessSegments(rows) {
   return rows.map(row => (row.reviewerScores.length ? row.reviewerScores : [{label: "No model judgment", correctnessScore: null, confidence: null}])
     .map(score => {
       const value = score.correctnessScore;
-      const color = value == null ? null : `rgb(${Math.round(207 + (25 - 207) * value / 100)}, ${Math.round(75 + (97 - 75) * value / 100)}, ${Math.round(75 + (86 - 75) * value / 100)})`;
+      const confidenceFailed = Number.isFinite(row.confidenceThreshold)
+        && (!Number.isFinite(score.confidence) || score.confidence < row.confidenceThreshold);
+      const colorValue = confidenceFailed ? 0 : value;
+      const color = colorValue == null ? null : `rgb(${Math.round(207 + (25 - 207) * colorValue / 100)}, ${Math.round(75 + (97 - 75) * colorValue / 100)}, ${Math.round(75 + (86 - 75) * colorValue / 100)})`;
       return {color, citationFailed: (score.citations || []).some(check => check.status === "fail"),
-        tooltip: `Run ${row.number} · ${score.label}\nCorrectness: ${scoreText(value)}\nConfidence: ${scoreText(score.confidence)}${score.citations?.length ? `\nCitation validation: ${citationStatus(score.citations)}` : ""}`};
+        tooltip: `Run ${row.number} · ${score.label}\nCorrectness: ${scoreText(value)}\nConfidence: ${scoreText(score.confidence)}${confidenceFailed ? `\nConfidence requirement failed (minimum ${scoreText(row.confidenceThreshold)})` : ""}${score.citations?.length ? `\nCitation validation: ${citationStatus(score.citations)}` : ""}`};
     }));
 }
 
