@@ -3,7 +3,7 @@
 A small local tool for testing LLMs. Give a model documents and a question, repeat
 it, and review its facts, quotations and answer against your expected results.
 
-Accompanying Medium article: **Making AI Answers Traceable and Testable** (link coming soon).
+Accompanying Medium article: [**Making AI Answers Traceable and Testable**](https://calje.medium.com/making-ai-answers-traceable-and-testable-51b9800cb363?sk=1592d80e7c3deed458b132296910e279) .
 
 Built with **OpenAI Codex**. Use Codex to adapt the app, or ChatGPT to design
 experiments using the [JSON format](docs/import-export-types.md) and
