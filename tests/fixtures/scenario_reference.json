@@ -1,0 +1,111 @@
+{
+  "schema": "scenario-reference-v2",
+  "dataset": "orion-fixture-v1",
+  "notes": "Evaluator only; never included in retrieval or model inputs. Automatic results cover declared structured fields; full claim support requires human review.",
+  "cases": {
+    "complete": {
+      "required_evidence": [
+        {
+          "document_id": "orion",
+          "version": "2",
+          "quote": "Project Orion is gestart op 12 maart 2024."
+        }
+      ],
+      "expected": "12 maart 2024",
+      "criteria": [
+        "retrieval_evidence"
+      ],
+      "definition_version": "1"
+    },
+    "missing": {
+      "required_evidence": [],
+      "expected": "Geen naam van een budgetgoedkeurder bekend; projectmanager zijn impliceert geen goedkeuring.",
+      "criteria": [],
+      "definition_version": "1"
+    },
+    "conflict": {
+      "required_evidence": [
+        {
+          "document_id": "orion",
+          "version": "2",
+          "quote": "2,8 miljoen euro"
+        },
+        {
+          "document_id": "finance",
+          "version": "1",
+          "quote": "2,6 miljoen euro"
+        }
+      ],
+      "expected": "Beide bedragen voor dezelfde ingangsdatum benoemen; corpus stelt geen leidende bron vast.",
+      "criteria": [
+        "retrieval_evidence"
+      ],
+      "definition_version": "1"
+    },
+    "version": {
+      "expected": "€2.8 million, supported by orion v2; v2 is newer than v1.",
+      "required_evidence": [
+        {
+          "document_id": "orion",
+          "version": "2",
+          "quote": "2,8 miljoen euro"
+        }
+      ],
+      "budget_eur": 2800000,
+      "supporting_source": [
+        "orion",
+        "2"
+      ],
+      "older_source": [
+        "orion",
+        "1"
+      ],
+      "newer_source": [
+        "orion",
+        "2"
+      ],
+      "approved_sources": [
+        {
+          "document_id": "orion",
+          "version": "1",
+          "body_strip_sha256": "d8dc5ca279b90b76e120830567d82acc0fcc50f858e6cc1e68ccc12a9f033435"
+        },
+        {
+          "document_id": "orion",
+          "version": "2",
+          "body_strip_sha256": "0a6ebc53cc113e5b18f49948a2ea83bc0eda6249736d1e36e1007af1e9083dec"
+        }
+      ],
+      "source_comparison": "UTF-8 body.strip() sha256; source bytes and original hashes remain unchanged",
+      "criteria": [
+        "budget",
+        "supporting_version",
+        "version_relation",
+        "unsupported_claims",
+        "retrieval_evidence"
+      ],
+      "definition_version": "3",
+      "reference_version": "3"
+    },
+    "knowledge": {
+      "required_evidence": [],
+      "expected": "Parijs is het feitelijk juiste antwoord, maar ontbreekt in het toegestane corpus. Feitelijke juistheid en bronondersteuning apart beoordelen.",
+      "criteria": [],
+      "definition_version": "1"
+    },
+    "version-v1": {
+      "required_evidence": [
+        {
+          "document_id": "orion",
+          "version": "1",
+          "quote": "2,4 miljoen euro"
+        }
+      ],
+      "expected": "2,4 miljoen euro volgens versie 1",
+      "criteria": [
+        "retrieval_evidence"
+      ],
+      "definition_version": "1"
+    }
+  }
+}

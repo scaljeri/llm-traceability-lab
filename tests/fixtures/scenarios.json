@@ -1,0 +1,202 @@
+[
+  {
+    "id": "complete",
+    "title": "1 · Complete information",
+    "question": "When did Project Orion start?",
+    "hypothesis": "The answer states the correct start date and cites a retrieved source.",
+    "versions": [
+      [
+        "orion",
+        "2"
+      ],
+      [
+        "finance",
+        "1"
+      ],
+      [
+        "team",
+        "1"
+      ],
+      [
+        "audit",
+        "1"
+      ],
+      [
+        "atlas",
+        "1"
+      ]
+    ],
+    "top_k": 4,
+    "definition_version": "1",
+    "context_mode": "retrieval",
+    "prompt_instructions": "",
+    "version_instructions": false,
+    "mode": "experiment",
+    "temperature": 0,
+    "seed": 42,
+    "max_tokens": 1024,
+    "evaluation_criteria": [
+      "retrieval_evidence"
+    ]
+  },
+  {
+    "id": "missing",
+    "title": "2 · Missing information",
+    "question": "Who approved the budget for Project Orion?",
+    "hypothesis": "The experiment instructions require abstaining from naming an approver without evidence.",
+    "versions": [
+      [
+        "orion",
+        "2"
+      ],
+      [
+        "finance",
+        "1"
+      ],
+      [
+        "team",
+        "1"
+      ],
+      [
+        "audit",
+        "1"
+      ],
+      [
+        "atlas",
+        "1"
+      ]
+    ],
+    "top_k": 4,
+    "definition_version": "1",
+    "context_mode": "retrieval",
+    "prompt_instructions": "",
+    "version_instructions": false,
+    "mode": "experiment",
+    "temperature": 0,
+    "seed": 42,
+    "max_tokens": 1024,
+    "evaluation_criteria": []
+  },
+  {
+    "id": "conflict",
+    "title": "3 · Conflicting sources",
+    "question": "What is the budget for Project Orion as of 1 May 2024? Identify any conflicts.",
+    "hypothesis": "Both conflicting sources are retrieved and the answer acknowledges the conflict.",
+    "versions": [
+      [
+        "orion",
+        "2"
+      ],
+      [
+        "finance",
+        "1"
+      ]
+    ],
+    "top_k": 2,
+    "definition_version": "1",
+    "context_mode": "retrieval",
+    "prompt_instructions": "",
+    "version_instructions": false,
+    "mode": "experiment",
+    "temperature": 0,
+    "seed": 42,
+    "max_tokens": 1024,
+    "evaluation_criteria": [
+      "retrieval_evidence"
+    ]
+  },
+  {
+    "id": "version",
+    "title": "4 · Document Version Reasoning",
+    "question": "What is the current budget for Project Orion?",
+    "hypothesis": "The answer identifies the current budget from v2 and reports v2 as newer than v1, regardless of context order.",
+    "versions": [
+      [
+        "orion",
+        "1"
+      ],
+      [
+        "orion",
+        "2"
+      ]
+    ],
+    "top_k": 2,
+    "definition_version": "3",
+    "context_mode": "explicit",
+    "prompt_instructions": "A higher document version number represents a newer version.\nReturn one JSON object with budget_eur (integer euros), supporting_source_id (the cited source ID in square brackets), version_relation (an object with older_source_id and newer_source_id, both cited source IDs in square brackets), and explanation (text). Report an unknown value as null. Do not add other fields.",
+    "version_instructions": false,
+    "mode": "experiment",
+    "temperature": 0,
+    "seed": 42,
+    "max_tokens": 1024,
+    "evaluation_criteria": [
+      "budget",
+      "supporting_version",
+      "version_relation",
+      "unsupported_claims",
+      "retrieval_evidence"
+    ]
+  },
+  {
+    "id": "version-v1",
+    "title": "4b · Earlier version only",
+    "question": "What is the budget for Project Orion according to project card version 1?",
+    "hypothesis": "Only the explicitly selected earlier version determines the supplied budget information.",
+    "versions": [
+      [
+        "orion",
+        "1"
+      ]
+    ],
+    "top_k": 1,
+    "definition_version": "1",
+    "context_mode": "retrieval",
+    "prompt_instructions": "",
+    "version_instructions": false,
+    "mode": "experiment",
+    "temperature": 0,
+    "seed": 42,
+    "max_tokens": 1024,
+    "evaluation_criteria": [
+      "retrieval_evidence"
+    ]
+  },
+  {
+    "id": "knowledge",
+    "title": "5 · Model knowledge vs. source evidence",
+    "question": "What is the capital of France?",
+    "hypothesis": "The answer may reveal model knowledge; source support must be assessed separately according to the experiment instructions.",
+    "versions": [
+      [
+        "orion",
+        "2"
+      ],
+      [
+        "finance",
+        "1"
+      ],
+      [
+        "team",
+        "1"
+      ],
+      [
+        "audit",
+        "1"
+      ],
+      [
+        "atlas",
+        "1"
+      ]
+    ],
+    "top_k": 4,
+    "definition_version": "1",
+    "context_mode": "retrieval",
+    "prompt_instructions": "",
+    "version_instructions": false,
+    "mode": "experiment",
+    "temperature": 0,
+    "seed": 42,
+    "max_tokens": 1024,
+    "evaluation_criteria": []
+  }
+]

@@ -1,0 +1,93 @@
+{
+  "format": "traceability-experiment-v2",
+  "experiment": {
+    "title": "05 - Yesterday's Truth",
+    "question": "What is the current approved budget of Project Orion as of October 24, 2026?",
+    "documents": [
+      {
+        "document_id": "orion",
+        "version": "2",
+        "filename": "orion-v2.txt",
+        "title": "Project Orion - Project Plan",
+        "content": "Project Orion - Project Plan\n\nDocument version: 2\nPublished on: 2026-06-15\nEffective on: 2026-07-01\n\nThe previously approved budget of EUR 2.4 million has been revised.\n\nApproved project budget: EUR 2.8 million.\n\nThe revised budget takes effect on July 1, 2026 and supersedes the budget recorded in version 1.",
+        "metadata": {
+          "published_on": "2026-06-15",
+          "effective_on": "2026-07-01"
+        }
+      },
+      {
+        "document_id": "orion",
+        "version": "1",
+        "filename": "orion-v1.txt",
+        "title": "Project Orion - Project Plan",
+        "content": "Project Orion - Project Plan\n\nDocument version: 1\nPublished on: 2026-01-15\nEffective on: 2026-01-15\n\nApproved project budget: EUR 2.4 million.\n\nThis is the approved budget for Project Orion as of January 15, 2026.",
+        "metadata": {
+          "published_on": "2026-01-15",
+          "effective_on": "2026-01-15"
+        }
+      }
+    ],
+    "output_mode": "facts_and_answer",
+    "validation_json": {},
+    "semantic_reference": {
+      "facts": [
+        {
+          "fact": "Version 2 of the Project Orion project plan states that the approved budget is EUR 2.8 million.",
+          "optional": false,
+          "sources": [
+            {
+              "document_id": "orion",
+              "version": "2",
+              "quote": "Approved project budget: EUR 2.8 million."
+            }
+          ]
+        },
+        {
+          "fact": "The revised budget takes effect on July 1, 2026 and supersedes version 1.",
+          "optional": false,
+          "sources": [
+            {
+              "document_id": "orion",
+              "version": "2",
+              "quote": "The revised budget takes effect on July 1, 2026 and supersedes the budget recorded in version 1."
+            }
+          ]
+        },
+        {
+          "fact": "Version 1 of the Project Orion project plan states that the previously approved budget was EUR 2.4 million.",
+          "optional": true,
+          "sources": [
+            {
+              "document_id": "orion",
+              "version": "1",
+              "quote": "Approved project budget: EUR 2.4 million."
+            }
+          ]
+        },
+        {
+          "fact": "Version 2 explicitly records that the previous approved budget of EUR 2.4 million was revised.",
+          "optional": true,
+          "sources": [
+            {
+              "document_id": "orion",
+              "version": "2",
+              "quote": "The previously approved budget of EUR 2.4 million has been revised."
+            }
+          ]
+        },
+        {
+          "fact": "Version 2 was published on June 15, 2026.",
+          "optional": true,
+          "sources": [
+            {
+              "document_id": "orion",
+              "version": "2",
+              "quote": "Published on: 2026-06-15"
+            }
+          ]
+        }
+      ],
+      "answer": "As of October 24, 2026, the current approved budget of Project Orion is EUR 2.8 million. The revised budget became effective on July 1, 2026 and supersedes the previously approved budget of EUR 2.4 million."
+    }
+  }
+}

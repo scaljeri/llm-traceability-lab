@@ -1,0 +1,11 @@
+{
+  "dataset": "orion-fixture-v1",
+  "documents": [
+    {"document_id":"orion","title":"Project Orion","version":"1","file":"orion-v1.txt"},
+    {"document_id":"orion","title":"Project Orion","version":"2","file":"orion-v2.txt"},
+    {"document_id":"finance","title":"Financieel overzicht","version":"1","file":"finance.txt"},
+    {"document_id":"team","title":"Team en verantwoordelijkheden","version":"1","file":"team.txt"},
+    {"document_id":"audit","title":"Auditnotitie","version":"1","file":"audit.txt"},
+    {"document_id":"atlas","title":"Project Atlas","version":"1","file":"atlas.txt"}
+  ]
+}

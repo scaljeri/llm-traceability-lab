@@ -1,0 +1,84 @@
+{
+    "format": "traceability-experiment-v2",
+    "experiment": {
+        "title": "03 - Conflicting sources",
+        "question": "What is the approved budget of Project Orion?",
+        "documents": [
+            {
+                "document_id": "orion",
+                "version": "1",
+                "title": "Project Orion - Project Plan",
+                "filename": "orion-v1.txt",
+                "content": "Project Orion\n\nProject manager: Anna de Vries.\n\nApproved project budget: EUR 2.4 million.\n\nThe approved budget covers the development and implementation of Project Orion.",
+                "enabled": true
+            },
+            {
+                "document_id": "finance",
+                "version": "1",
+                "title": "Project Orion - Financial Overview",
+                "filename": "finance-v1.txt",
+                "content": "Financial Overview - Project Orion\n\nProject: Project Orion.\n\nApproved project budget: EUR 2.6 million.\n\nThe approved budget covers the development and implementation of Project Orion.",
+                "enabled": true
+            }
+        ],
+        "output_mode": "facts_and_answer",
+        "validation_json": {},
+        "semantic_reference": {
+            "facts": [
+                {
+                    "fact": "The Project Orion project plan states that the approved budget is EUR 2.4 million.",
+                    "sources": [
+                        {
+                            "document_id": "orion",
+                            "version": "1",
+                            "quote": "Approved project budget: EUR 2.4 million."
+                        }
+                    ]
+                },
+                {
+                    "fact": "The Project Orion financial overview states that the approved budget is EUR 2.6 million.",
+                    "sources": [
+                        {
+                            "document_id": "finance",
+                            "version": "1",
+                            "quote": "Approved project budget: EUR 2.6 million."
+                        }
+                    ]
+                },
+                {
+                    "fact": "The two provided documents conflict regarding the approved budget of Project Orion: the project plan states EUR 2.4 million, while the financial overview states EUR 2.6 million.",
+                    "optional": true,
+                    "sources": [
+                        {
+                            "document_id": "orion",
+                            "version": "1",
+                            "quote": "Approved project budget: EUR 2.4 million."
+                        },
+                        {
+                            "document_id": "finance",
+                            "version": "1",
+                            "quote": "Approved project budget: EUR 2.6 million."
+                        }
+                    ]
+                },
+                {
+                    "fact": "The approved budget for Project Orion covers the development and implementation of the project, as stated in both documents.",
+                    "optional": true,
+                    "sources": [
+                        {
+                            "document_id": "orion",
+                            "version": "1",
+                            "quote": "The approved budget covers the development and implementation of Project Orion."
+                        },
+                        {
+                            "document_id": "finance",
+                            "version": "1",
+                            "quote": "The approved budget covers the development and implementation of Project Orion."
+                        }
+                    ]
+                }
+            ],
+            "answer": "The supplied documents conflict about the approved budget of Project Orion. The project plan states EUR 2.4 million, while the financial overview states EUR 2.6 million. The approved budget cannot be determined unambiguously from the available evidence."
+        }
+    }
+}

@@ -1,0 +1,46 @@
+{
+  "format": "traceability-experiment-v2",
+  "experiment": {
+    "title": "04 - Perfect citation, wrong answer",
+    "question": "What is the approved budget of Project Orion?",
+    "documents": [
+      {
+        "document_id": "orion",
+        "version": "1",
+        "title": "Project Orion - Budget Proposal",
+        "filename": "orion-budget-proposal-v1.txt",
+        "content": "Project Orion - Budget Proposal\n\nProposed project budget: EUR 2.6 million.\n\nThe proposal has been submitted to the steering committee for review.\n\nBudget approval is still pending. No approved project budget has been recorded in this document.",
+        "enabled": true
+      }
+    ],
+    "output_mode": "facts_and_answer",
+    "validation_json": {},
+    "semantic_reference": {
+      "facts": [
+        {
+          "fact": "The proposed budget for Project Orion is EUR 2.6 million.",
+          "optional": false,
+          "sources": [
+            {
+              "document_id": "orion",
+              "version": "1",
+              "quote": "Proposed project budget: EUR 2.6 million."
+            }
+          ]
+        },
+        {
+          "fact": "Budget approval for Project Orion is still pending.",
+          "optional": false,
+          "sources": [
+            {
+              "document_id": "orion",
+              "version": "1",
+              "quote": "Budget approval is still pending."
+            }
+          ]
+        }
+      ],
+      "answer": "The approved budget cannot be determined from the supplied document. EUR 2.6 million is the proposed budget, and approval is still pending."
+    }
+  }
+}

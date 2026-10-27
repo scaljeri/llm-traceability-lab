@@ -1,0 +1,59 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.env
+var/
+/data/
+models/
+dist/
+*.egg-info/
+
+# Local configuration and credentials
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+
+# Local research state, reports and diagnostics
+/MEMORY.md
+/test_network.py
+/docs/reports/
+*.sqlite
+*.sqlite3
+*.db
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.db-wal
+*.db-shm
+*.log
+
+# Editor, OS and test artifacts
+.DS_Store
+.idea/
+.vscode/
+.coverage
+.coverage.*
+htmlcov/
+build/
+
+# Model weights and SQLite rollback journals
+*.gguf
+*.sqlite-journal
+*.sqlite3-journal
+*.db-journal
+
+# Local AI development instructions and vendored skills
+/AGENTS.md
+/.agents/
+/.codex/
+/skills-lock.json
+/docs/development-skills.md
+/docs/skill-sources.json
+/docs/skill-licenses/

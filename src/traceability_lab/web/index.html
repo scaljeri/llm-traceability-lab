@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Traceability Lab</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script type="module" src="/static/app.js"></script>
+</head>
+<body>
+  <header>
+    <div><span class="eyebrow">LOCAL RESEARCH LAB</span><h1>AI Traceability Lab</h1></div>
+
+  </header>
+  <p class="intro">Choose an experiment, run it and review the results.</p>
+  <p id="error" class="error" role="alert" hidden></p>
+
+  <main>
+    <div id="experiment-settings">
+      <section>
+        <div class="heading"><h2>Experiment</h2><div class="runner-actions"><button id="manage-experiments" type="button" class="secondary">Manage experiments</button><button id="manage-prompts" type="button" class="secondary">Manage prompts</button><button id="manage-servers" type="button" class="secondary">Manage servers</button><button id="sync-files" type="button" class="danger">Sync files</button></div></div>
+        <form id="question-form">
+          <label for="saved-experiment">Experiment</label>
+          <select id="saved-experiment"><option value="">Select an experiment</option></select>
+          <p id="runner-selection-status" class="muted">Select a saved experiment, or open the editor to create one.</p>
+          <div class="two">
+            <label>Answer model<select id="llm-profile"></select></label>
+            <label>Review model<select id="semantic-evaluator"><option value="">Disabled</option></select></label>
+            <div class="prompt-selectors">
+              <label>Generation prompt<select id="answer-prompt" required></select></label>
+              <label>Fact review prompt<select id="review-facts-prompt" required></select></label>
+              <label>Answer review prompt<select id="review-answer-prompt" required></select></label>
+            </div>
+            <label>Temperature<span class="temperature-slider"><input id="temperature" type="range" min="0" max="2" step="0.2" value="0"><output id="temperature-value" for="temperature">0.0</output></span></label>
+            <label>Review threshold (0–100)<input id="evaluator-threshold" type="number" min="0" max="100" step="1" value="90"></label>
+            <div>
+              <label for="seed">Seed</label>
+              <div class="seed-control">
+                <input id="seed" type="number" min="0" max="2147483647" value="42" disabled>
+                <label class="seed-toggle"><input id="seed-enabled" type="checkbox" role="switch" aria-label="Enable seed" data-no-help><span class="seed-toggle-track" aria-hidden="true"></span><span class="seed-toggle-state" aria-hidden="true"></span></label>
+              </div>
+            </div>
+            <label>Repetitions<input id="repetitions" type="number" min="1" max="100" value="3"></label>
+          </div>
+          <details><summary>Advanced model options</summary>
+            <label>Review temperature<span class="temperature-slider"><input id="evaluator-temperature" type="range" min="0" max="2" step="0.2" value="0"><output id="evaluator-temperature-value" for="evaluator-temperature">0.0</output></span></label>
+            <input hidden id="evaluator-seed" type="number" value="42">
+            <label>Generator max output tokens<input id="max-tokens" type="number" min="16" max="8192" placeholder="Use model setting"></label>
+            <label>Reviewer max output tokens<input id="evaluator-max-tokens" type="number" min="128" max="8192" placeholder="Use model setting"></label>
+            <p class="muted">Optional overrides for this execution only. Leave empty to use the selected model setting. Saved model profiles are unchanged. A response cut short by its limit can fail validation.</p>
+          </details>
+          <button id="run-button" type="submit" disabled>Start experiment</button>
+          <div id="execution-progress" hidden aria-live="polite" aria-atomic="true">
+            <button id="cancel-execution" type="button" class="secondary" title="Stop the active run immediately and keep completed results" hidden>Cancel</button>
+            <span id="execution-spinner" class="spinner" aria-hidden="true"></span>
+            <span id="progress" class="muted"></span>
+            <progress id="execution-counter" value="0" max="1" aria-label="Completed runs"></progress>
+          </div>
+
+
+        </form>
+      </section>
+      <section id="run-controls">
+        <details id="input-preview"><summary>Inspect exact model input</summary>
+        <h2>Exact model input · preview</h2>
+        <label for="run-system-prompt">System prompt</label>
+        <textarea id="run-system-prompt" form="question-form" rows="7" maxlength="20000" readonly placeholder="General instructions for the LLM"></textarea>
+        <label for="run-context">User prompt</label>
+        <textarea id="run-context" form="question-form" rows="8" maxlength="200000" readonly placeholder="Document context supplied to the LLM"></textarea>
+        <p class="muted">Together, the system prompt and user prompt form the model context. This read-only preview updates automatically.</p>
+        <p id="run-context-status" class="muted" role="status"></p>
+
+        </details>
+      </section>
+    </div>
+
+    <section id="batch-results" hidden aria-labelledby="batch-results-title">
+      <div class="heading"><h2 id="batch-results-title">Experiment results</h2><div class="document-actions"><button id="copy-batch-markdown" type="button" class="secondary">Copy analysis Markdown</button><button id="download-batch-markdown" type="button" class="secondary">Download analysis Markdown</button></div></div>
+      <p id="batch-copy-status" class="muted" role="status"></p>
+      <div id="batch-markdown-fallback" hidden><textarea id="batch-markdown-content" readonly rows="12" aria-label="Analysis Markdown"></textarea></div>
+      <div id="experiment-overview" aria-label="Experiment Overview"></div>
+      <h3>Checks per answer property</h3>
+      <div id="property-chart" aria-label="Checks and reviewer correctness per property"></div>
+      <details id="run-reports">
+        <summary>Reports</summary>
+        <label for="batch-run-selection">Run</label>
+        <select id="batch-run-selection"></select>
+        <div id="run-panel" hidden>
+          <h4>Markdown</h4>
+          <div class="document-actions"><button id="copy-markdown" type="button" class="secondary" disabled>Copy Markdown</button><button id="download-markdown" type="button" class="secondary" disabled>Download Markdown</button><a id="download" class="button secondary">Download run JSON</a></div>
+          <p id="markdown-copy-status" class="muted" role="status"></p>
+          <h4>Provenance · W3C PROV</h4>
+          <div class="document-actions"><button id="copy-provenance" type="button" class="secondary" disabled>Copy PROV-JSON</button><a id="prov-download" class="button secondary" download>Download PROV-JSON</a><a id="provn-download" class="button secondary">Download PROV-N</a></div>
+          <p id="provenance-copy-status" class="muted" role="status"></p>
+          <details><summary>View provenance</summary><pre id="provenance-json"></pre></details>
+        </div>
+        <p id="report-status" class="muted" role="status"></p>
+      </details>
+    </section>
+
+  </main>
+  <dialog id="experiments-manager" aria-labelledby="experiments-manager-title">
+    <header class="manager-header">
+      <div class="heading"><h2 id="experiments-manager-title">Manage experiments</h2><button id="close-experiments-manager" type="button" class="secondary" aria-label="Close manage experiments">×</button></div>
+      <div class="manager-toolbar">
+        <label for="managed-experiment">Experiment<select id="managed-experiment"><option value="">Select an experiment</option></select></label>
+        <button id="new-experiment" type="button" class="secondary" aria-label="Add experiment" title="Add experiment">+</button>
+        <button id="export-experiment" type="button" class="secondary" disabled>Export JSON</button>
+        <button id="delete-experiment" type="button" class="secondary" title="Delete experiment; recorded runs are preserved" disabled>Delete</button>
+        <button id="import-experiment" type="button" class="secondary" hidden>Import JSON</button>
+        <button id="edit-experiment" type="button" class="secondary" aria-label="Edit experiment" title="Edit experiment" disabled>✎</button>
+      </div>
+      <div class="manager-toolbar" role="group" aria-label="Experiment view">
+        <button id="experiment-form-view" type="button" class="secondary" aria-pressed="true">Form</button>
+        <button id="experiment-json-view" type="button" class="secondary" aria-pressed="false">JSON</button>
+      </div>
+    </header>
+    <div class="manager-body">
+      <p id="manager-empty-state" class="muted">Select an experiment or use + to create one.</p>
+          <div id="experiment-editor">
+          <p id="definition-status" class="muted" role="status"></p>
+          <p id="legacy-prompt-warning" class="notice" role="status" hidden>This experiment contains legacy prompt text. The selected generation prompt replaces it; saving here removes that legacy text.</p>
+          <div id="experiment-json-pane" hidden>
+            <label for="experiment-json">Experiment JSON</label>
+            <textarea id="experiment-json" class="mono" rows="24" spellcheck="false" aria-describedby="experiment-json-help"></textarea>
+            <p id="experiment-json-help" class="muted">Edit the experiment data, documents and expected results. Prompts are managed separately. Save stores your changes.</p>
+            <p id="experiment-json-error" class="notice" role="alert" hidden></p>
+          </div>
+          <div id="experiment-form-fields">
+          <label for="experiment-title">Title</label>
+          <input id="experiment-title" form="question-form" maxlength="200" value="" required>
+          <label for="question">LLM Question</label>
+          <textarea id="question" form="question-form" required maxlength="2000" rows="4"></textarea>
+          <input id="output-mode" type="hidden" value="facts_and_answer">
+          <div hidden>
+          <label for="answer-json">Answer JSON · response structure</label>
+          <textarea id="answer-json" rows="5" spellcheck="false">{}</textarea>
+          <label for="validation-json">Validation JSON · expected field values</label>
+          <textarea id="validation-json" rows="5" spellcheck="false">{}</textarea>
+          <p id="validation-help" class="muted">An empty string ("") means ignore this value. Only filled expectations are checked. Example: {"budget_eur":2800000,"supporting_source_id":{"$source":{"document_id":"orion","version":"2"}}}. Validation is never sent to the LLM.</p>
+          </div>
+          <div id="semantic-options" hidden>
+            <label for="semantic-reference">Expected facts and answer · evaluation only</label>
+            <textarea id="semantic-reference" rows="6" maxlength="30000" placeholder='{"facts":[{"fact":"Expected fact","sources":[{"document_id":"orion","version":"1","quote":"Exact supporting passage"}]}],"answer":"Expected answer or null"}'></textarea>
+            <p class="muted">Exhaustive list of allowed facts. Facts are required by default; add "optional": true to allow omission. Leave the reference empty to assess source support only. Never sent to the generator.</p>
+          </div>
+          <div class="heading"><h3>Experiment documents</h3><button id="import-owned-documents" type="button" class="secondary">Import documents</button><button id="add-owned-document" type="button" class="secondary">+ Document</button></div>
+          <p class="muted">These documents belong only to this experiment. Uncheck to disable; drag the grip to change model input order.</p>
+          <div id="owned-documents"></div>
+          </div>
+          </div>
+    </div>
+    <footer class="manager-footer">
+      <button id="cancel-experiment" type="button" class="secondary">Cancel</button>
+      <button id="save-experiment" type="button" disabled>Save</button>
+    </footer>
+  </dialog>
+  <dialog id="prompts-manager" aria-labelledby="prompts-title">
+    <header class="manager-header">
+      <div class="heading"><h2 id="prompts-title">Manage prompts</h2><button id="close-prompts" type="button" class="secondary" aria-label="Close manage prompts">×</button></div>
+      <div id="prompt-tabs" role="tablist" aria-label="Prompt type" class="prompt-tabs" data-active="answer">
+        <button id="prompt-category-answer" role="tab" tabindex="0" aria-selected="true" aria-controls="prompt-editor" type="button" class="prompt-tab">Generation prompts</button>
+        <button id="prompt-category-review" role="tab" tabindex="-1" aria-selected="false" aria-controls="prompt-editor" type="button" class="prompt-tab">Review prompts</button>
+      </div>
+      <div class="manager-toolbar">
+        <label for="managed-prompt">Prompt<select id="managed-prompt"></select></label>
+        <button id="prompt-new" type="button" class="secondary" aria-label="Add prompt">+</button>
+        <button id="prompt-edit" type="button" class="secondary" aria-label="Edit prompt">✎</button>
+        <button id="prompt-copy" type="button" class="secondary" title="Copy prompt JSON to clipboard">Copy JSON</button>
+      </div>
+      <div class="manager-toolbar" role="group" aria-label="Prompt view">
+        <button id="prompt-form-view" type="button" class="secondary" aria-pressed="true">Form</button>
+        <button id="prompt-json-view" type="button" class="secondary" aria-pressed="false">JSON</button>
+      </div>
+    </header>
+    <div class="manager-body">
+      <p class="muted">System prompts use {{output_json}} for the required output structure. Generation user prompts use {{user_question}} and {{documents}}. Review user prompts use {{review_input}}. Both review stages share one system template.</p>
+      <div id="prompt-editor" role="tabpanel" hidden>
+        <div id="prompt-form-pane">
+          <input id="prompt-id" type="hidden">
+          <label for="prompt-name">Name</label><input id="prompt-name" maxlength="200">
+          <label for="prompt-system">System prompt</label><textarea id="prompt-system" rows="6" maxlength="20000"></textarea>
+          <div id="prompt-user-field"><label for="prompt-user">User prompt</label><textarea id="prompt-user" rows="9" maxlength="10000"></textarea></div>
+          <div id="prompt-review-fields">
+            <label for="prompt-fact">Fact prompt</label><textarea id="prompt-fact" rows="10" maxlength="30000"></textarea>
+            <label for="prompt-answer">Answer review prompt</label><textarea id="prompt-answer" rows="10" maxlength="30000"></textarea>
+          </div>
+        </div>
+        <div id="prompt-json-pane" hidden><label for="prompt-json">Prompt JSON</label><textarea id="prompt-json" rows="24" spellcheck="false" class="mono" placeholder="Paste prompt JSON here."></textarea></div>
+      </div>
+    </div>
+    <footer class="manager-footer"><p id="prompt-status" class="muted" role="status"></p><button id="prompt-delete" type="button" class="secondary">Delete</button><button id="prompt-cancel" type="button" class="secondary">Cancel</button><button id="prompt-save" type="button" disabled>Save</button></footer>
+  </dialog>
+  <dialog id="file-sync-dialog" aria-labelledby="file-sync-title">
+    <div class="heading"><h2 id="file-sync-title">Sync files</h2><button id="close-file-sync" type="button" class="secondary">Close</button></div>
+    <p>These actions overwrite data. Server settings and recorded runs are preserved.</p>
+    <h3>Files → app</h3>
+    <p>Replace all saved experiments and prompts with the JSON files in <code>experiments/</code> and <code>prompts/</code>. Unsaved edits are discarded.</p>
+    <button id="import-library-files" type="button" class="danger">Load from files</button>
+    <h3>App → files</h3>
+    <p>Replace the JSON files in those folders with your saved experiments and prompts. Save your edits first. Other file types are kept.</p>
+    <button id="export-library-files" type="button" class="danger">Export to files</button>
+    <p id="file-sync-status" role="status"></p>
+  </dialog>
+  <dialog id="settings-menu" aria-labelledby="settings-title">
+    <header class="manager-header">
+      <div class="heading"><h2 id="settings-title">Manage servers</h2><button id="close-settings" class="secondary" type="button">Close</button></div>
+      <div class="manager-toolbar">
+        <label>Server<select id="edit-profile"><option value="">Choose a server</option></select></label>
+        <button id="new-profile" type="button" class="secondary" aria-label="New server">+</button>
+        <button id="delete-profile" type="button" class="secondary">Delete</button>
+        <button id="edit-server" type="button" class="secondary" aria-label="Edit server">✎</button>
+      </div>
+    </header>
+    <div class="manager-body">
+      <p id="profile-empty" class="muted">Add a server using +. Its name appears in the experiment model selections.</p>
+      <div id="profile-management">
+          <form id="profile-form">
+            <div class="two"><label>Server name<input id="profile-name" required maxlength="100" placeholder="Example: Qwen on Jetson"></label>
+            <label hidden>Role<select id="profile-kind"><option value="llm">LLM</option></select></label></div>
+            <label>API base URL<input id="profile-url" required type="url" placeholder="http://127.0.0.1:8000/v1"></label>
+            <label>API model ID<select id="profile-model" required><option value="">Load models to select</option></select></label>
+            <button id="load-profile-models" type="button" class="secondary">Load models</button>
+            <p id="profile-model-status" class="muted" role="status"></p>
+            <div hidden><label>Hardware<input id="profile-hardware" maxlength="200" placeholder="GPU-server / Jetson"></label>
+            <label hidden>Precision / quantization<input id="profile-precision" maxlength="100" placeholder="FP16 / Q4_K_M"></label></div>
+            <div class="two"><label>Timeout (seconds)<input id="profile-timeout" type="number" min="1" max="600" value="120" required></label>
+</div>
+            <label id="profile-max-tokens-label">Maximum output tokens<input id="profile-max-tokens" type="number" min="128" max="8192" step="1" value="2048" placeholder="2048"></label>
+            <label id="thinking-label">Thinking mode<select id="profile-thinking"><option value="">Server default</option><option value="false">Off</option><option value="true">On</option></select></label>
+            <details hidden><summary>Version identity and embedding prefixes</summary>
+              <label hidden>Model revision (weights)<input id="profile-revision" maxlength="200"></label>
+              <label>Server build / revision<input id="profile-server-revision" maxlength="200"></label>
+              <label>Model file SHA-256<input id="profile-sha" maxlength="64" pattern="[a-fA-F0-9]{64}"></label>
+              <label>Deployment manifest (JSON)<textarea id="profile-manifest" rows="6" placeholder='{"filename":"model.gguf","sha256":"...","engine":"llama.cpp","provenance":"deployment manifest"}'></textarea></label>
+              <label>Capture live server metadata<select id="profile-capture-metadata"><option value="">Auto (recommended)</option><option value="false">Off</option><option value="true">On</option></select></label>
+              <label>Trust loaded-artifact attestations from this server<select id="profile-trust-identity"><option value="false">Off</option><option value="true">On</option></select></label>
+              <details><summary>Verify a local GGUF artifact</summary>
+                <p class="muted">Uses the saved profile and a file accessible on the application host. Hashing runs only when you click this button.</p>
+                <label>GGUF path on application host<input id="profile-artifact-path" placeholder="/models/model.gguf"></label>
+                <label>Local Linux server PID (optional)<input id="profile-artifact-pid" type="number" min="1"></label>
+                <button id="verify-profile-artifact" type="button" class="secondary">Hash and register artifact</button>
+                <p id="profile-verification-status" role="status" class="muted"></p>
+              </details>
+            </details>
+          </form>
+      </div>
+    </div>
+    <footer class="manager-footer"><p id="profile-status" role="status" class="muted"></p><button id="cancel-profile" type="button" class="secondary">Cancel</button><button id="save-profile" type="submit" form="profile-form">Save</button></footer>
+  </dialog>
+  <dialog id="json-import-dialog" aria-labelledby="json-import-title">
+    <div class="import-content">
+      <div class="heading"><h2 id="json-import-title">Import JSON</h2><button id="close-json-import" type="button" class="secondary" aria-label="Close import">×</button></div>
+      <p id="json-import-description" class="muted"></p>
+      <label for="json-import-text">JSON</label>
+      <textarea id="json-import-text" rows="16" spellcheck="false" placeholder="Paste JSON here, or drop a JSON file onto this dialog."></textarea>
+      <div class="document-actions"><button id="choose-json-import-file" type="button" class="secondary">Choose file</button><span id="json-import-filename" class="muted"></span></div>
+      <input id="json-import-file" type="file" accept=".json,application/json" hidden>
+      <p id="json-import-error" class="error" role="alert" hidden></p>
+      <footer class="manager-footer"><button id="cancel-json-import" type="button" class="secondary">Cancel</button><button id="confirm-json-import" type="button">Import</button></footer>
+    </div>
+    <div class="import-dropzone" aria-hidden="true"><strong>Drop JSON file here</strong><span>One file at a time</span></div>
+  </dialog>
+  <dialog id="reviewer-prompt-dialog" aria-labelledby="reviewer-prompt-title">
+    <header class="manager-header"><div class="heading"><h2 id="reviewer-prompt-title">Reviewer prompt</h2><button id="copy-reviewer-prompt" type="button" class="secondary" disabled>Copy to clipboard</button><button id="close-reviewer-prompt" type="button" class="secondary">Close</button></div></header>
+    <div class="manager-body">
+      <label id="reviewer-prompt-run-label">Run<select id="reviewer-prompt-run"></select></label>
+      <label id="reviewer-prompt-fact-label" hidden>Fact<select id="reviewer-prompt-fact"></select></label>
+      <p id="reviewer-prompt-status" class="muted" role="status"></p>
+      <pre id="reviewer-prompt-text" tabindex="0"></pre>
+    </div>
+  </dialog>
+  <dialog id="parameter-help" aria-labelledby="parameter-help-title" aria-describedby="parameter-help-text">
+    <div class="heading"><h2 id="parameter-help-title"></h2><button id="close-parameter-help" type="button" class="secondary">Close</button></div>
+    <p id="parameter-help-text"></p>
+    <div id="parameter-help-options" tabindex="0" aria-label="Help options" hidden></div>
+  </dialog>
+  <div id="snackbar" popover="manual" role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

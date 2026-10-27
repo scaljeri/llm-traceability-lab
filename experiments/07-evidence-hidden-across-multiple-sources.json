@@ -1,0 +1,138 @@
+{
+  "format": "traceability-experiment-v2",
+  "experiment": {
+    "title": "07 - Evidence hidden across multiple sources",
+    "question": "What is the final approved budget for Project Orion, and when was it approved?",
+    "documents": [
+      {
+        "document_id": "orion-charter",
+        "version": "1",
+        "title": "Project Orion - Project Charter",
+        "filename": "orion-charter-v1.txt",
+        "content": "Project Orion - Project Charter\nDate: 2026-03-04\nOwner: Transformation Office\n\nObjective: Consolidate customer onboarding workflows across three operating regions.\nScope: Identity verification, case routing, exception handling, and reporting.\nTarget deployment: Q2 2027. Sponsor: Chief Operations Officer.\nThe charter describes the project's intended outcomes but does not authorize expenditure.\nA detailed cost baseline will be maintained separately by Finance.\n\nMilestones:\n- April: initial requirements\n- June: solution selection\n- August: revised delivery plan\n- October: integration readiness\n\nThe sponsor requested that all funding decisions be documented in the steering committee decision log. Project status reports are informational and must not be used as evidence of approval.",
+        "enabled": true,
+        "metadata": {},
+        "source": ""
+      },
+      {
+        "document_id": "orion-budget-proposal",
+        "version": "1",
+        "title": "Project Orion - Initial Budget Proposal",
+        "filename": "orion-budget-proposal-v1.txt",
+        "content": "Project Orion - Initial Budget Proposal\nDate: 2026-04-12\nStatus: Draft for discussion\n\nEstimated implementation cost: EUR 2.6 million.\nThe estimate includes EUR 1.1 million for engineering, EUR 0.7 million for integration, EUR 0.5 million for external services, and EUR 0.3 million for contingency.\nThis is a planning estimate, not an approved funding baseline.\n\nAssumptions:\n- Existing data contracts remain unchanged.\n- No additional regulatory certification is required.\n- Vendor onboarding can begin in June.\n\nFinance noted that the contingency may need revision following the supplier review. The proposed figure is retained here for historical comparison only.",
+        "enabled": true,
+        "metadata": {},
+        "source": ""
+      },
+      {
+        "document_id": "orion-steerco",
+        "version": "1",
+        "title": "Project Orion - Steering Committee Minutes",
+        "filename": "orion-steerco-v1.txt",
+        "content": "Project Orion - Steering Committee Minutes\nMeeting date: 2026-09-18\nLocation: Conference Room C / video call\nChair: Programme Sponsor\nAttendees: Finance Director, Delivery Lead, Procurement Lead, Risk Officer\n\nAgenda item 1: Delivery readiness. The team reported that interface specifications were signed off, with two integration risks remaining open.\nAgenda item 2: Procurement. The preferred vendor was asked to provide an updated implementation schedule. Contract award remains subject to procurement controls.\nAgenda item 3: Funding baseline. The committee reviewed the revised financial baseline circulated by Finance under revision BR-07. Members confirmed that the superseded April estimate must no longer be used for reporting.\n\nDecision SC-2026-0918-04: The steering committee approved the Project Orion funding baseline identified as BR-07 on 18 September 2026.\n\nAction: Finance to publish the approved baseline in the project reporting pack. The minutes record the decision and baseline identifier; the detailed monetary amount is maintained in the Finance revision register.\nAgenda item 4: Resourcing. Recruitment of two integration specialists may proceed within the approved staffing envelope.\nNext meeting: 2026-10-16.",
+        "enabled": true,
+        "metadata": {},
+        "source": ""
+      },
+      {
+        "document_id": "orion-risk-register",
+        "version": "1",
+        "title": "Project Orion - Risk Register",
+        "filename": "orion-risk-register-v1.txt",
+        "content": "Project Orion - Risk Register\nUpdated: 2026-09-22\n\nR-014: Supplier transition could delay delivery by six weeks. Likelihood medium, impact high. Mitigation: dual-track onboarding.\nR-021: Data migration test coverage below target. Likelihood medium, impact medium. Mitigation: add reconciliation checks.\nR-028: A potential EUR 400,000 schedule exposure is tracked as a risk estimate; this is not a project budget or funding decision.\nR-033: Additional accessibility testing may be needed for the reporting dashboard.\n\nRisk exposure figures represent potential future costs, not authorized funding. The register is not the source of record for budget approvals.",
+        "enabled": true,
+        "metadata": {},
+        "source": ""
+      },
+      {
+        "document_id": "orion-procurement",
+        "version": "1",
+        "title": "Project Orion - Procurement Overview",
+        "filename": "orion-procurement-v1.txt",
+        "content": "Project Orion - Procurement Overview\nUpdated: 2026-09-15\n\nSupplier A: Indicative services quote EUR 980,000, subject to commercial negotiation.\nSupplier B: Indicative platform quote EUR 620,000, excluding taxes and implementation support.\nSupplier C: Optional migration tooling EUR 190,000.\n\nThe procurement plan lists commercial quotations and contract status. None of these quotes constitutes a complete project budget or an approval of project funding.\n\nProcurement checkpoints: due diligence, data-processing review, contract redlines, purchase order release. The team will not issue purchase orders until the funding baseline has been approved.",
+        "enabled": true,
+        "metadata": {},
+        "source": ""
+      },
+      {
+        "document_id": "orion-finance-revision",
+        "version": "1",
+        "title": "Project Orion - Finance Budget Revision Register",
+        "filename": "orion-finance-revision-v1.txt",
+        "content": "Project Orion - Finance Budget Revision Register\nMaintained by: Corporate Finance\nLast updated: 2026-09-19\n\nRevision history:\nBR-03 | 2026-04-12 | Initial planning estimate | EUR 2.60 million | Draft\nBR-05 | 2026-07-28 | Supplier and integration adjustment | EUR 2.74 million | Under review\nBR-06 | 2026-08-30 | Contingency scenario | EUR 3.10 million | Scenario only\n\nReconciliation note: BR-05 included an integration allowance that was revised after technical due diligence. BR-06 was prepared for stress testing and was not submitted as the funding baseline.\n\nBR-07 | 2026-09-16 | Revised funding baseline | EUR 2.85 million | Submitted for steering committee decision\n\nBR-07 breakdown: delivery engineering EUR 1.20 million; integration EUR 0.80 million; external services EUR 0.55 million; contingency EUR 0.30 million. Total EUR 2.85 million.\n\nThis register records the value and identity of each revision. Formal approval decisions are documented in steering committee minutes rather than inferred from a revision's presence in this register.",
+        "enabled": true,
+        "metadata": {},
+        "source": ""
+      },
+      {
+        "document_id": "orion-team-plan",
+        "version": "1",
+        "title": "Project Orion - Team Capacity Plan",
+        "filename": "orion-team-plan-v1.txt",
+        "content": "Project Orion - Team Capacity Plan\nUpdated: 2026-09-10\n\nDelivery squad: 8 engineers, 2 QA specialists, 1 delivery manager.\nExpected external specialist allocation: 110 person-days in Q4.\nA separate resource scenario assumes EUR 420,000 in staff-related costs, which is not the total project budget.\n\nDependencies: security review in October, integration testing in November, operations handover in December. Capacity assumptions are provisional and do not establish funding approval.",
+        "enabled": true,
+        "metadata": {},
+        "source": ""
+      },
+      {
+        "document_id": "orion-status-report",
+        "version": "1",
+        "title": "Project Orion - Monthly Status Report",
+        "filename": "orion-status-report-v1.txt",
+        "content": "Project Orion - Monthly Status Report\nReporting period: August 2026\nOverall status: Amber\n\nDelivery: 72% of planned design milestones complete.\nCosts: Working forecast EUR 2.74 million based on BR-05; Finance is preparing an updated baseline.\nDecision status at reporting cut-off: revised baseline awaiting committee review.\n\nThe August report is a historical snapshot. Its working forecast must not be treated as the final approved budget.\nNext steps: finalize vendor estimates, close integration assumptions, and present revised baseline to the September committee.",
+        "enabled": true,
+        "metadata": {},
+        "source": ""
+      },
+      {
+        "document_id": "orion-email-thread",
+        "version": "1",
+        "title": "Project Orion - Internal Email Thread",
+        "filename": "orion-email-thread-v1.txt",
+        "content": "Project Orion - Internal Email Thread\nSubject: Orion figures for board pack\n\n2026-08-26, Delivery Lead to Finance:\nCan we still use EUR 2.6m in the September slides? It is the number most stakeholders remember.\n\n2026-08-27, Finance Analyst:\nPlease do not label EUR 2.6m as approved. It was the original draft. BR-05 currently reflects EUR 2.74m, and another revision is being prepared.\n\n2026-09-12, Programme Office:\nFor the next board pack, please use a placeholder until the steering committee records a formal funding decision. The email chain is not the approval record.\n\n2026-09-14, Delivery Lead:\nUnderstood. We will keep the old number only in the historical comparison appendix.",
+        "enabled": true,
+        "metadata": {},
+        "source": ""
+      },
+      {
+        "document_id": "orion-governance",
+        "version": "1",
+        "title": "Project Orion - Funding Governance Policy",
+        "filename": "orion-governance-v1.txt",
+        "content": "Project Orion - Funding Governance Policy\nEffective: 2026-01-01\n\nSection 2. Authority: Project budgets above EUR 1 million require a recorded steering committee decision.\nSection 3. Evidence: A valid funding claim must identify the committee decision and the associated Finance baseline revision. Neither a budget proposal nor a Finance revision entry alone proves approval.\nSection 4. Reporting: Where multiple revisions exist, reports must use the revision explicitly authorized by the committee.\nSection 5. Audit trail: Retain meeting minutes, revision register, and supporting quotations as separate records.\n\nExample (unrelated to Orion): Project Vega had a EUR 3.4 million scenario but a EUR 3.0 million approved baseline. Figures from different projects must never be combined.",
+        "enabled": true,
+        "metadata": {},
+        "source": ""
+      }
+    ],
+    "output_mode": "facts_and_answer",
+    "semantic_reference": {
+      "answer": "The final approved budget for Project Orion is EUR 2.85 million, approved by the steering committee on 18 September 2026. Approval applies to baseline BR-07, whose value is recorded in the Finance revision register. Accept equivalent wording, but require both the amount and approval date, with evidence connecting the approval decision to BR-07 and BR-07 to EUR 2.85 million. Do not confuse older proposals, forecasts, scenarios, supplier quotes, or risk estimates with the approved baseline.",
+      "facts": [
+        {
+          "fact": "The steering committee approved Project Orion baseline BR-07 on 18 September 2026.",
+          "optional": false,
+          "sources": [
+            {
+              "document_id": "orion-steerco",
+              "version": "1",
+              "quote": "The steering committee approved the Project Orion funding baseline identified as BR-07 on 18 September 2026."
+            }
+          ]
+        },
+        {
+          "fact": "Finance revision BR-07 sets the Project Orion funding baseline at EUR 2.85 million.",
+          "optional": false,
+          "sources": [
+            {
+              "document_id": "orion-finance-revision",
+              "version": "1",
+              "quote": "BR-07 | 2026-09-16 | Revised funding baseline | EUR 2.85 million | Submitted for steering committee decision"
+            }
+          ]
+        }
+      ]
+    },
+    "validation_json": {}
+  }
+}

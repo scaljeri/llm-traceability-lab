@@ -1,0 +1,45 @@
+{
+  "format": "traceability-experiment-v2",
+  "experiment": {
+    "title": "01 - Complete information (baseline)",
+    "question": "Who is the project manager of Project Orion?",
+    "documents": [
+      {
+        "document_id": "orion",
+        "version": "1",
+        "title": "Project Orion - Version 1",
+        "filename": "orion-v1.txt",
+        "content": "Project Orion\n\nProject manager: Anna de Vries.\n\nAnna de Vries is responsible for the overall coordination and delivery of Project Orion.",
+        "enabled": true
+      }
+    ],
+    "output_mode": "facts_and_answer",
+    "validation_json": {},
+    "semantic_reference": {
+      "facts": [
+        {
+          "fact": "Anna de Vries is the project manager of Project Orion.",
+          "sources": [
+            {
+              "document_id": "orion",
+              "version": "1",
+              "quote": "Project manager: Anna de Vries."
+            }
+          ]
+        },
+        {
+          "fact": "Anna de Vries is responsible for the overall coordination and delivery of Project Orion.",
+          "sources": [
+            {
+              "document_id": "orion",
+              "version": "1",
+              "quote": "Anna de Vries is responsible for the overall coordination and delivery of Project Orion."
+            }
+          ],
+          "optional": true
+        }
+      ],
+      "answer": "Anna de Vries is the project manager of Project Orion."
+    }
+  }
+}

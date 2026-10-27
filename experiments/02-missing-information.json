@@ -1,0 +1,23 @@
+{
+  "format": "traceability-experiment-v2",
+  "experiment": {
+    "title": "02 - Missing information",
+    "question": "Who approved the budget of Project Orion?",
+    "documents": [
+      {
+        "document_id": "orion",
+        "version": "1",
+        "title": "Project Orion - Version 1",
+        "filename": "orion-v1.txt",
+        "content": "Project Orion\n\nProject manager: Anna de Vries.\n\nAnna de Vries is responsible for the overall coordination and delivery of Project Orion.",
+        "enabled": true
+      }
+    ],
+    "output_mode": "facts_and_answer",
+    "validation_json": {},
+    "semantic_reference": {
+      "facts": [],
+      "answer": null
+    }
+  }
+}
